@@ -86,19 +86,22 @@ class ControllerExtensionPaymentStripe extends Controller {
 
 			# May be the customer want to save its credit card
 			if($stripe_customer && ($use_existing_card == false)) {
-				$stripe_charge_parameters['customer'] = $stripe_customer['stripe_customer_id'];
-				$customer = \Stripe\Customer::retrieve($stripe_customer['stripe_customer_id']);
-				$stripe_card = $customer->sources->create(array("source" => $this->request->post['card']));
-				$stripe_charge_parameters['customer'] = $customer['id'];
-				$stripe_charge_parameters['source'] = $stripe_card['id'];
+				// $stripe_charge_parameters['customer'] = $stripe_customer['stripe_customer_id'];
+				// $customer = \Stripe\Customer::retrieve($stripe_customer['stripe_customer_id']);
+				// $stripe_card = $customer->sources->create(array("source" => $this->request->post['card']));
+				// $stripe_charge_parameters['customer'] = $customer['id'];
+				// $stripe_charge_parameters['source'] = $stripe_card['id'];
 
-				if(!!json_decode($this->request->post['saveCreditCard'])) {
-					$this->model_extension_payment_stripe->addCard(
-						$stripe_card,
-						$this->customer->getId(),
-						$stripe_environment
-					);
-				}
+				// if(!!json_decode($this->request->post['saveCreditCard'])) {
+				// 	$this->model_extension_payment_stripe->addCard(
+				// 		$stripe_card,
+				// 		$this->customer->getId(),
+				// 		$stripe_environment
+				// 	);
+				// }
+
+				$stripe_charge_parameters['source'] = $this->request->post['card'];
+
 			} else {
 				$stripe_charge_parameters['source'] = $this->request->post['card'];
 			}
